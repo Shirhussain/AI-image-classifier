@@ -1,5 +1,14 @@
 # Getting Started with Create React App
 
+for firing up this project for fornt-end we need some extra dependencies: 
+    - react boot stratp:
+	npm install react-bootstrap bootstrap
+ 
+    - for drag and drop in react:
+	npm install --save react-dropzone
+    - for connecting to API in react we have to install  axios:
+	npm i axios
+
 ## Available Scripts
 
 In the project directory, you can run:
