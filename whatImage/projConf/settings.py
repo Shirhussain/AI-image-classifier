@@ -41,8 +41,15 @@ INSTALLED_APPS = [
     'images',
 
     'rest_framework',
+    #A Django App that adds Cross-Origin Resource Sharing (CORS) headers to responses. This allows in-browser requests to your Django application from other origins.
     'corsheaders',
+
 ]
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000'       
+]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -52,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'projConf.urls'

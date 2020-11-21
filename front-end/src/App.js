@@ -1,3 +1,4 @@
+import React from 'react';
 import './App.css';
 import Classifier from './components/classifier/classifier'
 function App() {
