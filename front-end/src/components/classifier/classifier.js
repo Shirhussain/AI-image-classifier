@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import './classifier.css'
-import {Spinner} from 'react-bootstrap'
+import {Button, Spinner} from 'react-bootstrap'
 import axios from 'axios'
 
 class Classifier extends Component {
@@ -11,19 +11,19 @@ class Classifier extends Component {
     }
 
     // this is good for fetching data from the database
-    componentDidMount (){
-      this.getImages()
-    }
+    // componentDidMount (){
+    //   this.getImages()
+    // }
 
-    getImages = () =>{
-      axios.get('http://localhost:8000/api/images/', {
-        headers: {
-            'accept': 'application/json'
-        }
-      }).then(resp=>{
-        console.log(resp)
-      })
-    }
+    // getImages = () =>{
+    //   axios.get('http://localhost:8000/api/images/', {
+    //     headers: {
+    //         'accept': 'application/json'
+    //     }
+    //   }).then(resp=>{
+    //     console.log(resp)
+    //   })
+    // }
 
     onDrop = (files) => {
         // when function given file name is files: and state has also files 
@@ -40,9 +40,30 @@ class Classifier extends Component {
         this.setState({
           files, 
           isLoading: false
+        }, () => {
+          console.log(this.state.files[0].name)
         })
+        // i want spinner for one seconds or 1000 ms 
       }, 1000);
     }
+
+    sendImage =()=> {
+      let formData = new FormData()
+      formData.append("picture", this.state.files[0], this.state.files[0].name)
+      axios.post('http://localhost:8000/api/images/', formData, {
+        headers: {
+          'accept': 'application/json',
+          'content-type': 'multipart/form-data'
+        }
+      })
+      .then(resp=>{
+        console.log(resp)
+      })
+      .catch((error) => {
+        console.log('Not good man :('+error);
+    })  
+    }
+    
     render() {
         const files = this.state.files.map(file => (
             <li key={file.name}>
@@ -61,6 +82,10 @@ class Classifier extends Component {
                 <aside>
                   {files}
                 </aside>
+                {this.state.files.length >0 &&
+                <Button varian='info' size='lg' className='mt-3' onClick={this.sendImage} >Select Image</Button>
+                }
+
                 {this.state.isLoading && 
                 <Spinner animation="border" role="status">
                   <span className="sr-only">Loading...</span>
